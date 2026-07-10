@@ -38,6 +38,6 @@ yarn-error.*
 
 example
 
-# generated native folders
-/ios
-/android
+## generated native folders
+#/ios
+#/android
