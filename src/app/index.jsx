@@ -4,7 +4,7 @@ import * as Linking from "expo-linking";
 
 export default function Home() {
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1,backgroundColor:"purple"}}>
       <WebView
         source={{ uri: "https://emi-goldy.vercel.app" }}
         style={{ flex: 1, marginTop: 32  }}
