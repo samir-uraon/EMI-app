@@ -11,15 +11,12 @@
       "icon": "./assets/images/logo.png"
     },
     "android": {
-    
-
       "permissions": [
         "INTERNET",
         "CALL_PHONE",
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
-      ]
-    ,
+      ],
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/logo.png",
@@ -42,7 +39,8 @@
           "image": "./assets/images/logo.png",
           "imageWidth": 156
         }
-      ]
+      ],
+      "expo-sharing"
     ],
     "experiments": {
       "typedRoutes": true,
