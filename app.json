@@ -12,6 +12,14 @@
     },
     "android": {
     
+
+      "permissions": [
+        "INTERNET",
+        "CALL_PHONE",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    ,
       "adaptiveIcon": {
         "backgroundColor": "#FFFFFF",
         "foregroundImage": "./assets/images/logo.png",
@@ -32,7 +40,7 @@
         {
           "backgroundColor": "#FFFFFF",
           "image": "./assets/images/logo.png",
-          "imageWidth": 136
+          "imageWidth": 156
         }
       ]
     ],
