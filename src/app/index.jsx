@@ -65,45 +65,55 @@ export default function Home() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "purple" }}>
-      <WebView
-        ref={webViewRef} // 2. ...FIXED: Attached here!
-        source={{ uri: "https://emi-goldy.vercel.app" }}
-        style={{ flex: 1, marginTop: 34 }}
-        javaScriptEnabled
-        domStorageEnabled
-        allowFileAccess
-        allowUniversalAccessFromFileURLs
-        mixedContentMode="always"
-        originWhitelist={["*"]}
-        onNavigationStateChange={(navState) => {
-          setCanGoBack(navState.canGoBack);
-        }}
-        setSupportMultipleWindows={false}
-        onShouldStartLoadWithRequest={(request) => {
-          const url = request.url;
+    <WebView
+  ref={webViewRef}
+  source={{ uri: "https://emi-goldy.vercel.app" }}
+  style={{ flex: 1, marginTop: 34 }}
+  javaScriptEnabled
+  domStorageEnabled
+  allowFileAccess
+  allowUniversalAccessFromFileURLs
+  mixedContentMode="always"
+  originWhitelist={["*"]}
+  onMessage={(event) => {
+    try {
+      const data = JSON.parse(event.nativeEvent.data);
 
-          if (
-            url.startsWith("tel:") ||
-            url.startsWith("mailto:") ||
-            url.startsWith("sms:") ||
-            url.startsWith("whatsapp:")
-          ) {
-            Linking.openURL(url);
-            return false;
-          }
+      if (data.type === "DOWNLOAD_PDF") {
+        downloadFile(data.url);
+      }
+    } catch (e) {
+      console.log("Message error:", e);
+    }
+  }}
+  onNavigationStateChange={(navState) => {
+    setCanGoBack(navState.canGoBack);
+  }}
+  setSupportMultipleWindows={false}
+  onShouldStartLoadWithRequest={(request) => {
+    const url = request.url;
 
-          // Intercept PDF or Vercel Blob downloads
-          if (
-            url.endsWith(".pdf") ||
-            url.includes("blob.vercel-storage.com")
-          ) {
-            downloadFile(url);
-            return false;
-          }
+    if (
+      url.startsWith("tel:") ||
+      url.startsWith("mailto:") ||
+      url.startsWith("sms:") ||
+      url.startsWith("whatsapp:")
+    ) {
+      Linking.openURL(url);
+      return false;
+    }
 
-          return true;
-        }}
-      />
+    if (
+      url.endsWith(".pdf") ||
+      url.includes("blob.vercel-storage.com")
+    ) {
+      downloadFile(url);
+      return false;
+    }
+
+    return true;
+  }}
+/>
     </View>
   );
 }
