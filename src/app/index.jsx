@@ -32,34 +32,27 @@ export default function Home() {
       const year = date.getFullYear();
 
       // Clean up filename from URL
-      let fileName = url.split("/").pop().split("?")[0];
-
-      if (!fileName.endsWith(".pdf")) {
-        // Avoided spaces in filename just to keep Android DownloadManager happy
-        fileName = `Loan_Form_${day}_${month}_${year}.pdf`;
-      }
+      let fileName = `Loan_Form_${day}_${month}_${year}.pdf`;
+      
 
       const path = `${fs.dirs.DownloadDir}/${fileName}`;
 
       const res = await ReactNativeBlobUtil.config({
-        fileCache: false,
-        path,
-        addAndroidDownloads: {
-          useDownloadManager: true,
-          notification: true,
-          mediaScannable: true,
-          title: fileName,
-          description: "Downloading PDF...",
-          mime: "application/pdf",
-          path,
-        },
-      }).fetch("GET", url);
+  addAndroidDownloads: {
+    useDownloadManager: true,
+    notification: true,
+        mediaScannable: true,
+    title: fileName,
+    mime: "application/pdf",
+    path,
+  },
+}).fetch("GET", url);
 
-      console.log("Downloaded:", res.path());
+
       Alert.alert("Success", `Downloaded successfully!\nSaved to Downloads folder.`);
     } catch (err) {
       console.log("Download Error:", err);
-      Alert.alert("Error", "Download failed!");
+     
     }
   };
 
