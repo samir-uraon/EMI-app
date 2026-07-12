@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { View, BackHandler, Alert } from "react-native"; // Switched to Alert
+// Switched to Alert
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
 import ReactNativeBlobUtil from "react-native-blob-util";
