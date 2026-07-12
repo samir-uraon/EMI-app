@@ -110,6 +110,14 @@ export default function Home() {
       downloadFile(url);
       return false;
     }
+      if (
+    url.includes("accounts.google.com") ||
+    url.includes("/api/auth/signin/google")
+    ||   url.includes("/api/auth/callback/google")
+  ) {
+    Linking.openURL(url);
+    return false;
+  }
 
     return true;
   }}
