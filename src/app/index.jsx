@@ -3,10 +3,46 @@ import { View, BackHandler, Alert } from "react-native"; // Switched to Alert
 import { WebView } from "react-native-webview";
 import * as Linking from "expo-linking";
 import ReactNativeBlobUtil from "react-native-blob-util";
+import {
+  View,
+  BackHandler,
+  Alert,
+  PermissionsAndroid,
+  Platform,
+} from "react-native";
+
 
 export default function Home() {
   const webViewRef = useRef(null); // 1. Created here...
   const [canGoBack, setCanGoBack] = useState(false);
+
+
+const requestStoragePermission = async () => {
+  if (Platform.OS !== "android") return true;
+
+  // Android 13+ (API 33+) doesn't use WRITE_EXTERNAL_STORAGE
+  if (Platform.Version >= 33) {
+    return true;
+  }
+
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        title: "Storage Permission",
+        message: "Allow the app to save PDF files.",
+        buttonPositive: "Allow",
+        buttonNegative: "Cancel",
+      }
+    );
+
+    return granted === PermissionsAndroid.RESULTS.GRANTED;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
+
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -24,6 +60,14 @@ export default function Home() {
   }, [canGoBack]);
 
   const downloadFile = async (url) => {
+
+     const hasPermission = await requestStoragePermission();
+
+  if (!hasPermission) {
+    Alert.alert("Permission denied");
+    return;
+  }
+
     try {
       const { fs } = ReactNativeBlobUtil;
       const date = new Date();
